@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guia de Estudos – Tecnologia em Saneamento Ambiental · CENTEC</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #E87722;
+    --primary-hover: #d4661a;
+    --primary-light: rgba(232,119,34,0.12);
+    --navy: #0f2744;
+    --navy-light: #1e3a5f;
+    --emerald: #10b981;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    background: #f8fafc;
+    color: #1e293b;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.dark {
+    background: #0f172a;
+    color: #e2e8f0;
+  }
+
+  /* ── Scroll progress bar ── */
+  #scroll-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), #f59e0b);
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, var(--navy) 100%);
+    color: white;
+    padding: 64px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(232,119,34,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,119,34,0.2);
+    border-radius: 100px;
+    padding: 6px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fbbf24;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--primary); display: block; }
+  .hero p {
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 12px auto 32px;
+    font-size: 15px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-stat .val { font-size: 2rem; font-weight: 900; color: white; }
+  .hero-stat .val.primary { color: var(--primary); }
+  .hero-stat .lbl { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+  .hero-progress {
+    max-width: 400px;
+    margin: 24px auto 0;
+  }
+  .hero-progress-bar-bg {
+    height: 8px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  .hero-progress-bar {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--primary), #f59e0b);
+    transition: width 0.7s ease;
+  }
+  .hero-progress p { font-size: 11px; color: #64748b; margin-top: 6px; }
+
+  /* ── HowTo Bar ── */
+  .howto-bar {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: sticky;
+    top: 3px;
+    z-index: 50;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  body.dark .howto-bar {
+    background: #1e293b;
+    border-bottom-color: #334155;
+  }
+  .howto-steps {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .howto-step {
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  body.dark .howto-step { color: #94a3b8; }
+  .howto-step .num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .theme-btn {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #475569;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  body.dark .theme-btn { background: #334155; border-color: #475569; color: #cbd5e1; }
+  .theme-btn:hover { background: #e2e8f0; }
+  body.dark .theme-btn:hover { background: #475569; }
+
+  /* ── Main Layout ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* ── Search ── */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 16px;
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 40px 12px 42px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    font-size: 14px;
+    background: white;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  body.dark .search-input { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+  .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(232,119,34,0.1); }
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 18px;
+    cursor: pointer;
+    display: none;
+    width: 28px; height: 28px;
+    align-items: center; justify-content: center;
+    border-radius: 50%;
+  }
+  .search-clear:hover { background: #f1f5f9; }
+  .search-clear.visible { display: flex; }
+
+  /* ── Semester Tabs ── */
+  .tabs-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .tabs-scroll {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+  }
+  .tabs-scroll::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    white-space: nowrap;
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  body.dark .tab-btn { background: #1e293b; border-color: #334155; color: #94a3b8; }
+  .tab-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .tab-btn.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: white;
+  }
+  body.dark .tab-btn.active { background: var(--primary); border-color: var(--primary); }
+  .tab-progress-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    flex-shrink: 0;
+  }
+  .tab-btn.active .tab-progress-dot { background: rgba(255,255,255,0.4); }
+  .tab-progress-dot.complete { background: var(--emerald) !important; }
+  .tab-progress-dot.partial { background: var(--primary) !important; }
+  .expand-btn {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #64748b;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  body.dark .expand-btn { background: #1e293b; border-color: #334155; color: #94a3b8; }
+  .expand-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* ── Context heading ── */
+  .context-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .context-desc { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+  body.dark .context-desc { color: #94a3b8; }
+
+  /* ── Subject Card ── */
+  .subject-card {
+    border-radius: var(--radius);
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  body.dark .subject-card { background: #1e293b; border-color: #334155; }
+  .subject-card.completed { border-color: var(--emerald); }
+  .subject-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .subject-card-header:hover { background: #f8fafc; }
+  body.dark .subject-card-header:hover { background: rgba(255,255,255,0.03); }
+  .card-index {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    width: 20px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .card-ring { flex-shrink: 0; position: relative; }
+  .card-ring svg { display: block; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: #e2e8f0; stroke-width: 3; }
+  body.dark .ring-bg { stroke: #334155; }
+  .ring-fg { fill: none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+  .ring-fg.complete { stroke: var(--emerald); }
+  .card-info { flex: 1; min-width: 0; }
+  .card-name { font-size: 15px; font-weight: 700; color: #0f172a; }
+  body.dark .card-name { color: #f1f5f9; }
+  .card-meta { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .card-badges { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .badge-completed {
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(16,185,129,0.1);
+    color: var(--emerald);
+    border-radius: 100px;
+    padding: 2px 8px;
+    display: none;
+  }
+  .subject-card.completed .badge-completed { display: block; }
+  .badge-note {
+    font-size: 11px;
+    background: rgba(232,119,34,0.1);
+    color: var(--primary);
+    border-radius: 100px;
+    padding: 2px 7px;
+    display: none;
+  }
+  .badge-note.has-note { display: block; }
+  .sem-badge {
+    font-size: 10px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 100px;
+    padding: 2px 8px;
+  }
+  body.dark .sem-badge { background: #334155; color: #94a3b8; }
+  .chevron {
+    color: #94a3b8;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+  .subject-card.open .chevron { transform: rotate(180deg); }
+
+  /* ── Accordion ── */
+  .accordion-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .accordion-wrapper.open { grid-template-rows: 1fr; }
+  .accordion-inner { overflow: hidden; }
+  .accordion-content {
+    padding: 0 18px 20px;
+    border-top: 1px solid #f1f5f9;
+  }
+  body.dark .accordion-content { border-top-color: #334155; }
+
+  /* Description */
+  .card-desc {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.7;
+    padding: 14px 0 16px;
+  }
+  body.dark .card-desc { color: #94a3b8; }
+
+  /* Section heading */
+  .section-heading {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #64748b;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+  body.dark .section-heading { color: #64748b; border-bottom-color: #334155; }
+
+  /* Topics list */
+  .topics-list { list-style: none; margin-bottom: 20px; }
+  .topic-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .topic-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: #374151;
+    line-height: 1.6;
+    width: 100%;
+  }
+  body.dark .topic-label { color: #cbd5e1; }
+  .topic-label.checked { color: #94a3b8; }
+  body.dark .topic-label.checked { color: #475569; }
+  .topic-cb {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 2px solid #d1d5db;
+    background: white;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 2px;
+  }
+  body.dark .topic-cb { background: #0f172a; border-color: #475569; }
+  .topic-cb.checked {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  .topic-cb svg { display: none; }
+  .topic-cb.checked svg { display: block; }
+
+  /* Bibliography */
+  .bib-list { list-style: none; margin-bottom: 16px; }
+  .bib-item {
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.6;
+    padding: 5px 0 5px 12px;
+    border-left: 2px solid #0f2744;
+    margin-bottom: 6px;
+  }
+  body.dark .bib-item { color: #64748b; border-left-color: var(--primary); }
+  .bib-item.section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    border-left-color: transparent;
+    padding-left: 0;
+    margin-top: 8px;
+  }
+
+  /* Card actions */
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #f1f5f9;
+  }
+  body.dark .card-actions { border-top-color: #334155; }
+  .card-action-btn {
+    padding: 6px 14px;
+    border-radius: 7px;
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  body.dark .card-action-btn { background: #0f172a; border-color: #334155; color: #94a3b8; }
+  .card-action-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .card-action-btn.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+  /* Notes textarea */
+  .notes-area {
+    margin-top: 12px;
+    display: none;
+  }
+  .notes-area.visible { display: block; }
+  .notes-textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    background: #fefce8;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  body.dark .notes-textarea { background: rgba(254,252,232,0.05); border-color: #334155; color: #e2e8f0; }
+  .notes-textarea:focus { border-color: var(--primary); }
+
+  /* ── Info Cards ── */
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .info-card {
+    border-radius: var(--radius);
+    padding: 18px;
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    text-align: center;
+  }
+  body.dark .info-card { background: #1e293b; border-color: #334155; }
+  .info-card-icon { font-size: 28px; margin-bottom: 8px; }
+  .info-card-val { font-size: 22px; font-weight: 900; color: var(--primary); }
+  .info-card-lbl { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 40px;
+    padding: 24px;
+    background: white;
+    border-radius: var(--radius);
+    border: 1.5px solid #e2e8f0;
+    text-align: center;
+  }
+  body.dark footer { background: #1e293b; border-color: #334155; }
+  footer h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  footer p { font-size: 12px; color: #64748b; }
+  .footer-progress-bar-bg {
+    height: 6px;
+    border-radius: 100px;
+    background: #f1f5f9;
+    overflow: hidden;
+    margin: 14px 0 6px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  body.dark .footer-progress-bar-bg { background: #334155; }
+  .footer-progress-bar {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--primary), #f59e0b);
+    transition: width 0.7s ease;
+  }
+  .reset-btn {
+    margin-top: 14px;
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: 1.5px solid #fca5a5;
+    background: white;
+    color: #ef4444;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  body.dark .reset-btn { background: transparent; }
+  .reset-btn:hover { background: #fef2f2; border-color: #ef4444; }
+
+  /* ── Back to top ── */
+  #back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 100;
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { background: var(--primary); }
+
+  /* ── No results ── */
+  .no-results {
+    text-align: center;
+    padding: 64px 20px;
+    color: #94a3b8;
+  }
+  .no-results .icon { font-size: 48px; margin-bottom: 12px; }
+  .no-results p { font-size: 15px; font-weight: 600; }
+  .no-results small { font-size: 13px; }
+
+  /* ── Celebration toast ── */
+  #celebration {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9) translateY(20px);
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 200;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+  }
+  body.dark #celebration { background: #1e293b; }
+  #celebration.show { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+  #celebration .icon { font-size: 32px; }
+  #celebration .text strong { display: block; font-size: 14px; }
+  #celebration .text span { font-size: 12px; color: #64748b; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+  @keyframes confetti-fall {
+    0%   { transform: translate3d(0,-20px,0) rotate(0deg); opacity:1; }
+    100% { transform: translate3d(var(--drift,0px),100vh,0) rotate(720deg); opacity:0; }
+  }
+  .confetti-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 201;
+    animation: confetti-fall 2.5s ease-in forwards;
+  }
+  .ripple-el {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    transform: scale(0);
+    animation: ripple 0.55s linear;
+    pointer-events: none;
+  }
+
+  /* ── Print ── */
+  @media print {
+    .howto-bar, #scroll-bar, #back-to-top, #celebration,
+    .search-wrap, .tabs-bar, .card-actions, .no-print { display: none !important; }
+    .accordion-wrapper { grid-template-rows: 1fr !important; }
+    .accordion-inner { overflow: visible !important; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .hero { padding: 48px 16px; }
+    .hero h1 { font-size: 2rem; }
+    .hero-stats { gap: 24px; }
+    main { padding: 24px 14px 80px; }
+    .howto-steps { display: none; }
+  }
+</style>
+</head>
+<body>
+<!-- Scroll progress bar -->
+<div id="scroll-bar"></div>
+
+<!-- Hero -->
+<section class="hero no-print">
+  <div class="hero-badge">🌿 Guia Completo</div>
+  <h1>Tecnologia em<span>Saneamento Ambiental</span></h1>
+  <p>Um curso que transforma o conhecimento em impacto real – na saúde das comunidades, na qualidade da água e no futuro do meio ambiente.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val">7+1</div><div class="lbl">Semestres</div></div>
+    <div class="hero-stat"><div class="val">43</div><div class="lbl">Disciplinas</div></div>
+    <div class="hero-stat"><div class="val">430+</div><div class="lbl">Referências</div></div>
+    <div class="hero-stat"><div class="val primary" id="hero-percent">0%</div><div class="lbl">Progresso</div></div>
+  </div>
+  <div class="hero-progress" id="hero-progress-wrap" style="display:none">
+    <div class="hero-progress-bar-bg">
+      <div class="hero-progress-bar" id="hero-progress-bar" style="width:0%"></div>
+    </div>
+    <p id="hero-progress-text"></p>
+  </div>
+</section>
+
+<!-- HowTo Bar -->
+<div class="howto-bar no-print">
+  <div class="howto-steps">
+    <div class="howto-step"><span class="num">1</span> Escolha o semestre</div>
+    <div class="howto-step"><span class="num">2</span> Expanda a disciplina</div>
+    <div class="howto-step"><span class="num">3</span> Marque os tópicos</div>
+    <div class="howto-step"><span class="num">4</span> Adicione anotações</div>
+  </div>
+  <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()">🌙 Modo Escuro</button>
+</div>
+
+<main>
+  <!-- Search -->
+  <div class="search-wrap no-print">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="search-input" placeholder="Buscar disciplina, tópico, referência…" oninput="handleSearch(this.value)"/>
+    <button class="search-clear" id="search-clear" onclick="clearSearch()" title="Limpar busca">✕</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-bar no-print" id="tabs-bar">
+    <div class="tabs-scroll" id="tabs-scroll"></div>
+    <button class="expand-btn" id="expand-btn" onclick="toggleAll()">▼ Expandir</button>
+  </div>
+
+  <!-- Context heading -->
+  <div class="context-title" id="context-title"></div>
+  <div class="context-desc" id="context-desc"></div>
+
+  <!-- Cards container -->
+  <div id="cards-container"></div>
+
+  <!-- Info Cards -->
+  <div class="info-cards" id="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon">✅</div>
+      <div class="info-card-val" id="ic-topics">0</div>
+      <div class="info-card-lbl">Tópicos estudados</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">📘</div>
+      <div class="info-card-val" id="ic-subjects">0</div>
+      <div class="info-card-lbl">Disciplinas concluídas</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">🎯</div>
+      <div class="info-card-val" id="ic-percent">0%</div>
+      <div class="info-card-lbl">Conclusão geral</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">📝</div>
+      <div class="info-card-val" id="ic-notes">0</div>
+      <div class="info-card-lbl">Anotações salvas</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <h3>🌿 Seu Progresso Geral</h3>
+    <p id="footer-text">Comece a marcar tópicos para acompanhar seu progresso!</p>
+    <div class="footer-progress-bar-bg">
+      <div class="footer-progress-bar" id="footer-bar" style="width:0%"></div>
+    </div>
+    <button class="reset-btn no-print" onclick="resetProgress()">🗑️ Resetar todo o progresso</button>
+  </footer>
+</main>
+
+<!-- Back to top -->
+<button id="back-to-top" title="Voltar ao topo" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Celebration toast -->
+<div id="celebration">
+  <span class="icon">🎉</span>
+  <div class="text">
+    <strong id="celebration-name">Disciplina concluída!</strong>
+    <span>Todos os tópicos foram estudados</span>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// CURRICULUM DATA
+// ══════════════════════════════════════════════════════════
+const curriculum = [
+  {
+    id: "sem1", label: "1º Semestre",
+    subjects: [
+      {
+        id: "s1-calculo", name: "Cálculo",
+        description: "Funções reais de uma variável real: limites, continuidade, derivadas, aplicações da derivada, integrais e suas aplicações em problemas de engenharia.",
+        topics: ["Funções reais de uma variável: domínio, imagem e gráficos","Limites: definição, teoremas, limites laterais e no infinito","Continuidade de funções e Teorema do Valor Intermediário","Derivadas: conceito, regras de derivação e Regra da Cadeia","Aplicações de derivadas: taxas de variação, máximos e mínimos","Construção de gráficos com auxílio de derivadas","Integrais definidas e indefinidas","Técnicas de integração e aplicações (áreas e volumes)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","GUIDORIZZI, H. L. Um Curso de Cálculo – v.1. 5ª ed. Rio de Janeiro: LTC, 2002.","LEITHOLD, L. O Cálculo com Geometria Analítica – v.1. 3ª ed. São Paulo: Harbra, 1994.","THOMAS, G. B. Cálculo – v.1. 11ª ed. São Paulo: Pearson Addison Wesley, 2009.","📗 BIBLIOGRAFIA COMPLEMENTAR","ANTON, H. Cálculo – v.1. 8ª ed. Porto Alegre: Bookman, 2007.","LARSON, R. E.; HOSTETLER, R. P.; EDWARDS, B. H. Cálculo com Aplicações. 4ª ed. Rio de Janeiro: LTC, 1998.","MUNEM, M. A. Cálculo – v.1. Rio de Janeiro: LTC, 1982.","SWOKOWSKI, E. W. Cálculo com Geometria Analítica – v.1. 2ª ed. São Paulo: Makron Books, 1994.","STEWART, J. Cálculo – v.1. 7ª ed. São Paulo: Cengage Learning, 2013."]
+      },
+      {
+        id: "s1-fisica", name: "Física Aplicada",
+        description: "Conceitos fundamentais de mecânica, gravitação, ondas e termodinâmica aplicados ao contexto do saneamento ambiental e engenharia.",
+        topics: ["Cinemática: movimento retilíneo, circular e lançamentos","Dinâmica: Leis de Newton e aplicações","Trabalho, energia cinética e potencial","Momento linear e colisões","Estática e equilíbrio de corpos rígidos","Mecânica dos fluidos: pressão, empuxo e escoamento","Termodinâmica: calor, temperatura e leis da termodinâmica","Ondas mecânicas e acústica"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","HALLIDAY, D.; RESNICK, R.; WALKER, J. Fundamentos de Física – v.1 Mecânica. 8ª ed. Rio de Janeiro: LTC, 2009.","HALLIDAY, D.; RESNICK, R.; WALKER, J. Fundamentos de Física – v.2 Gravitação, Ondas e Termodinâmica. 8ª ed. Rio de Janeiro: LTC, 2009.","NUSSENZVEIG, H. M. Curso de Física Básica – v.1 Mecânica. 4ª ed. São Paulo: Edgard Blücher, 2002.","📗 BIBLIOGRAFIA COMPLEMENTAR","NUSSENZVEIG, H. M. Curso de Física Básica – v.2 Fluidos, Oscilações e Ondas, Calor. 4ª ed. São Paulo: Edgard Blücher, 2002.","SEARS, F. W.; ZEMANSKY, M. W. Física – v.1 Mecânica. 12ª ed. São Paulo: Pearson, 2009.","SERWAY, R. A.; JEWETT JR., J. W. Princípios de Física – v.1. São Paulo: Thomson, 2005.","TIPLER, P. A.; MOSCA, G. Física para Cientistas e Engenheiros – v.1. 6ª ed. Rio de Janeiro: LTC, 2009."]
+      },
+      {
+        id: "s1-quimica", name: "Química Aplicada",
+        description: "Fundamentos de química geral, equilíbrio iônico, termoquímica, oxi-redução, estrutura e qualidade da água e noções de química ambiental.",
+        topics: ["Fundamentos básicos de química geral e estrutura atômica","Tabela periódica e ligações químicas","Funções inorgânicas: ácidos, bases, sais e óxidos","Estequiometria e cálculos químicos","Equilíbrio iônico da água e pH","Termoquímica e cinética química","Equilíbrio de oxi-redução","Estrutura e qualidades físico-químicas da água","Noções de química ambiental"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BAIRD, C. Química Ambiental. 2ª ed. Porto Alegre: Bookman, 2004.","BRADY, J. E.; HUMISTON, G. E. Química Geral – v.1. 2ª ed. Rio de Janeiro: LTC, 1986.","SPIRO, T. G.; STIGLIANI, W. M. Química Ambiental. 2ª ed. São Paulo: Pearson Prentice Hall, 2009.","📗 BIBLIOGRAFIA COMPLEMENTAR","BRADY, J. E.; SENESE, F. Química: A Matéria e Suas Transformações – v.1. 5ª ed. Rio de Janeiro: LTC, 2011.","KOTZ, J. C.; TREICHEL, P. M.; WEAVER, G. C. Química Geral e Reações Químicas – v.1. São Paulo: Cengage Learning, 2014.","MAHAN, B. H. Química: Um Curso Universitário. São Paulo: Edgard Blücher, 1991.","ROCHA, J. C.; ROSA, A. H.; CARDOSO, A. A. Introdução à Química Ambiental. 2ª ed. Porto Alegre: Bookman, 2009."]
+      },
+      {
+        id: "s1-desenho", name: "Desenho Técnico",
+        description: "Fundamentos do desenho técnico, normas, projeções e representação de sistemas de saneamento ambiental.",
+        topics: ["Normas técnicas de desenho: ABNT e ISO","Instrumentos e materiais de desenho","Escalas gráficas e numéricas","Geometria plana aplicada ao desenho","Projeções ortogonais e perspectivas","Cortes, seções e detalhes técnicos","Leitura e interpretação de plantas e projetos","Noções de CAD (Computer-Aided Design)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","FRENCH, T. E.; VIERCK, C. J. Desenho Técnico e Tecnologia Gráfica. 8ª ed. São Paulo: Globo, 2005.","SILVA, A.; RIBEIRO, C. T.; DIAS, J.; SOUSA, L. Desenho Técnico Moderno. 4ª ed. Rio de Janeiro: LTC, 2006.","ABNT. NBR 6492: Representação de Projetos de Arquitetura. Rio de Janeiro: ABNT, 1994.","📗 BIBLIOGRAFIA COMPLEMENTAR","GIESECKE, F. E. et al. Comunicação Gráfica Moderna. Porto Alegre: Bookman, 2002.","LEAKE, J.; BORGERSON, J. Manual de Desenho Técnico para Engenharia. Rio de Janeiro: LTC, 2010.","MICELI, M. T.; FERREIRA, P. Desenho Técnico Básico. 3ª ed. Rio de Janeiro: Ao Livro Técnico, 2008."]
+      },
+      {
+        id: "s1-intro", name: "Introdução ao Saneamento Ambiental",
+        description: "Conceitos fundamentais de saneamento ambiental, saúde pública, legislação e panorama do setor no Brasil.",
+        topics: ["Histórico e evolução do saneamento ambiental","Conceitos de saúde pública e saneamento","Panorama do saneamento no Brasil e no mundo","Legislação: Lei nº 11.445/2007 (Lei do Saneamento Básico)","Marco Legal do Saneamento Básico (Lei nº 14.026/2020)","Sistemas de abastecimento de água","Sistemas de esgotamento sanitário","Resíduos sólidos urbanos","Drenagem urbana e controle de inundações","Interrelação entre saneamento, meio ambiente e saúde"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. Lei nº 11.445/2007: Política Nacional de Saneamento Básico. Brasília: Presidência da República, 2007.","PHILIPPI JR., A. (ed.). Saneamento, Saúde e Ambiente: Fundamentos para um Desenvolvimento Sustentável. Barueri: Manole, 2005.","TSUTIYA, M. T. Abastecimento de Água. 4ª ed. São Paulo: Departamento de Engenharia Hidráulica e Sanitária da POLI/USP, 2006.","📗 BIBLIOGRAFIA COMPLEMENTAR","FUNASA. Manual de Saneamento. 4ª ed. Brasília: FUNASA, 2015.","HELLER, L.; PÁDUA, V. L. (org.). Abastecimento de Água para Consumo Humano. 2ª ed. Belo Horizonte: UFMG, 2010.","OMS/UNICEF. Progresso sobre Água Potável e Saneamento. Genebra: OMS, 2015."]
+      },
+      {
+        id: "s1-portugues", name: "Comunicação e Expressão",
+        description: "Desenvolvimento de competências comunicativas escritas e orais para o contexto profissional e acadêmico da área de saneamento.",
+        topics: ["Leitura e interpretação de textos técnicos e científicos","Estrutura e produção de relatórios técnicos","Normas da ABNT para trabalhos acadêmicos","Elaboração de memorandos, ofícios e atas","Comunicação oral: apresentações técnicas e seminários","Linguagem formal e informal no ambiente profissional","Revisão gramatical aplicada à escrita técnica"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ABNT. NBR 6023: Informação e Documentação – Referências – Elaboração. Rio de Janeiro: ABNT, 2018.","ABNT. NBR 14724: Informação e Documentação – Trabalhos Acadêmicos – Apresentação. Rio de Janeiro: ABNT, 2011.","MEDEIROS, J. B. Redação Científica: A Prática de Fichamentos, Resumos, Resenhas. 11ª ed. São Paulo: Atlas, 2009.","📗 BIBLIOGRAFIA COMPLEMENTAR","FIORIN, J. L.; SAVIOLI, F. P. Para Entender o Texto: Leitura e Redação. 17ª ed. São Paulo: Ática, 2007.","GARCIA, O. M. Comunicação em Prosa Moderna. 27ª ed. Rio de Janeiro: FGV, 2010."]
+      }
+    ]
+  },
+  {
+    id: "sem2", label: "2º Semestre",
+    subjects: [
+      {
+        id: "s2-hidraulica", name: "Hidráulica",
+        description: "Estudo do comportamento dos fluidos em repouso e em movimento, com aplicações em sistemas de abastecimento e esgotamento.",
+        topics: ["Propriedades dos fluidos: viscosidade, densidade e pressão","Hidrostática: pressão em fluidos, empuxo e princípio de Arquimedes","Hidrodinâmica: equação da continuidade e Bernoulli","Escoamento em tubulações: regime laminar e turbulento","Perda de carga em tubulações (Darcy-Weisbach e Hazen-Williams)","Redes de distribuição de água","Escoamento em canais abertos","Medição de vazão: vertedores, medidores e orifícios","Bombas hidráulicas: tipos, curvas características e seleção"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","AZEVEDO NETTO, J. M. et al. Manual de Hidráulica. 8ª ed. São Paulo: Edgard Blücher, 1998.","PORTO, R. M. Hidráulica Básica. 4ª ed. São Carlos: EESC/USP, 2006.","📗 BIBLIOGRAFIA COMPLEMENTAR","BRUNETTI, F. Mecânica dos Fluidos. 2ª ed. São Paulo: Pearson Prentice Hall, 2008.","CENGEL, Y. A.; CIMBALA, J. M. Mecânica dos Fluidos: Fundamentos e Aplicações. Porto Alegre: McGraw-Hill, 2007.","FOX, R. W.; MCDONALD, A. T.; PRITCHARD, P. J. Introdução à Mecânica dos Fluidos. 6ª ed. Rio de Janeiro: LTC, 2006.","WHITE, F. M. Mecânica dos Fluidos. 6ª ed. Porto Alegre: McGraw-Hill, 2011."]
+      },
+      {
+        id: "s2-microbiologia", name: "Microbiologia Aplicada ao Saneamento",
+        description: "Estudo dos microrganismos de interesse em saneamento, qualidade da água e tratamento de efluentes.",
+        topics: ["Classificação e morfologia de microrganismos","Bactérias: estrutura, nutrição e reprodução","Fungos, algas e protozoários de interesse sanitário","Vírus e príons de relevância em saúde pública","Indicadores de contaminação fecal (coliformes)","Microrganismos patogênicos transmitidos pela água","Microrganismos no tratamento biológico de esgotos","Métodos de análise microbiológica de água","Desinfecção e controle de microrganismos"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","MADIGAN, M. T. et al. Microbiologia de Brock. 12ª ed. Porto Alegre: Artmed, 2010.","PELCZAR, M. J.; CHAN, E. C. S.; KRIEG, N. R. Microbiologia: Conceitos e Aplicações – v.1. 2ª ed. São Paulo: Makron Books, 1997.","TORTORA, G. J.; FUNKE, B. R.; CASE, C. L. Microbiologia. 10ª ed. Porto Alegre: Artmed, 2012.","📗 BIBLIOGRAFIA COMPLEMENTAR","ANDRADE, N. J.; MACEDO, J. A. B. Higienização na Indústria de Alimentos. São Paulo: Varela, 1996.","HOLT, J. G. et al. Bergey's Manual of Determinative Bacteriology. 9ª ed. Baltimore: Williams & Wilkins, 1994."]
+      },
+      {
+        id: "s2-estatistica", name: "Estatística Aplicada",
+        description: "Métodos estatísticos para coleta, organização, análise e interpretação de dados em saneamento ambiental.",
+        topics: ["Conceitos básicos de estatística descritiva","Medidas de tendência central: média, mediana e moda","Medidas de dispersão: variância, desvio padrão e coeficiente de variação","Distribuições de frequência e histogramas","Probabilidade: conceitos e distribuições","Distribuição normal e suas aplicações","Testes de hipóteses e intervalos de confiança","Correlação e regressão linear","Controle estatístico de qualidade","Aplicações em monitoramento ambiental"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","MONTGOMERY, D. C.; RUNGER, G. C. Estatística Aplicada e Probabilidade para Engenheiros. 4ª ed. Rio de Janeiro: LTC, 2009.","DEVORE, J. L. Probabilidade e Estatística para Engenharia e Ciências. São Paulo: Cengage Learning, 2006.","TRIOLA, M. F. Introdução à Estatística. 10ª ed. Rio de Janeiro: LTC, 2008.","📗 BIBLIOGRAFIA COMPLEMENTAR","BUSSAB, W. O.; MORETTIN, P. A. Estatística Básica. 6ª ed. São Paulo: Saraiva, 2010.","HAIR, J. F. et al. Análise Multivariada de Dados. 6ª ed. Porto Alegre: Bookman, 2009.","WALPOLE, R. E.; MYERS, R. H.; MYERS, S. L. Probabilidade e Estatística para Engenharia e Ciências. 8ª ed. São Paulo: Pearson, 2009."]
+      },
+      {
+        id: "s2-quimica-analitica", name: "Química Analítica",
+        description: "Técnicas de análise qualitativa e quantitativa aplicadas ao controle de qualidade da água e efluentes.",
+        topics: ["Princípios de análise qualitativa inorgânica","Análise volumétrica: titulação ácido-base","Titulação de óxido-redução","Titulação de precipitação e complexação","Análise gravimétrica","Espectrofotometria UV-Vis","Cromatografia: princípios e aplicações","Análise de parâmetros físico-químicos da água","Controle de qualidade em laboratório","Normas e procedimentos analíticos (APHA)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","HARRIS, D. C. Análise Química Quantitativa. 7ª ed. Rio de Janeiro: LTC, 2008.","SKOOG, D. A.; WEST, D. M.; HOLLER, F. J. Fundamentos de Química Analítica. 8ª ed. São Paulo: Thomson, 2006.","VOGEL, A. I. Análise Química Quantitativa. 6ª ed. Rio de Janeiro: LTC, 2002.","📗 BIBLIOGRAFIA COMPLEMENTAR","APHA; AWWA; WEF. Standard Methods for the Examination of Water and Wastewater. 22ª ed. Washington: APHA, 2012.","BACCAN, N. et al. Química Analítica Quantitativa Elementar. 3ª ed. São Paulo: Edgard Blücher, 2001."]
+      },
+      {
+        id: "s2-ecologia", name: "Ecologia Aplicada",
+        description: "Princípios ecológicos fundamentais e sua relação com o saneamento ambiental e a preservação dos ecossistemas.",
+        topics: ["Conceitos básicos de ecologia: população, comunidade e ecossistema","Ciclos biogeoquímicos: carbono, nitrogênio, fósforo e enxofre","Cadeias alimentares e redes tróficas","Biodiversidade e conservação de ecossistemas","Ecossistemas aquáticos: rios, lagos e zonas costeiras","Impactos antrópicos nos ecossistemas","Eutrofização e poluição de corpos hídricos","Serviços ecossistêmicos e sustentabilidade","Ecologia urbana e planejamento ambiental"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ODUM, E. P.; BARRETT, G. W. Fundamentos de Ecologia. São Paulo: Thomson Learning, 2007.","RICKLEFS, R. E. A Economia da Natureza. 6ª ed. Rio de Janeiro: Guanabara Koogan, 2010.","TOWNSEND, C. R.; BEGON, M.; HARPER, J. L. Fundamentos em Ecologia. 3ª ed. Porto Alegre: Artmed, 2010.","📗 BIBLIOGRAFIA COMPLEMENTAR","BEGON, M.; TOWNSEND, C. R.; HARPER, J. L. Ecology: From Individuals to Ecosystems. 4ª ed. Oxford: Blackwell, 2006.","PRIMACK, R. B.; RODRIGUES, E. Biologia da Conservação. Londrina: Planta, 2001."]
+      }
+    ]
+  },
+  {
+    id: "sem3", label: "3º Semestre",
+    subjects: [
+      {
+        id: "s3-abastecimento", name: "Sistemas de Abastecimento de Água",
+        description: "Projeto, dimensionamento e operação de sistemas de captação, adução, tratamento e distribuição de água potável.",
+        topics: ["Mananciais: superficiais e subterrâneos","Captação de água: tipos e estruturas","Adução: tubulações, materiais e dimensionamento","Estações elevatórias e grupos de bombeamento","Reservatórios: dimensionamento e tipos","Redes de distribuição: projeto e dimensionamento","Perdas de água: controle e redução","Operação e manutenção de sistemas de abastecimento","Setorização e macromedição","Plano de Segurança da Água (PSA)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","TSUTIYA, M. T. Abastecimento de Água. 4ª ed. São Paulo: Departamento de Engenharia Hidráulica da POLI/USP, 2006.","HELLER, L.; PÁDUA, V. L. (org.). Abastecimento de Água para Consumo Humano. 2ª ed. Belo Horizonte: UFMG, 2010.","PORTO, R. M. Hidráulica Básica. 4ª ed. São Carlos: EESC/USP, 2006.","📗 BIBLIOGRAFIA COMPLEMENTAR","AZEVEDO NETTO, J. M. et al. Manual de Hidráulica. 8ª ed. São Paulo: Edgard Blücher, 1998.","FUNASA. Manual de Saneamento. 4ª ed. Brasília: FUNASA, 2015.","MACINTYRE, A. J. Bombas e Instalações de Bombeamento. 2ª ed. Rio de Janeiro: LTC, 1997.","WHO. Guidelines for Drinking-water Quality. 4ª ed. Geneva: WHO, 2011."]
+      },
+      {
+        id: "s3-tratamento-agua", name: "Tratamento de Água para Abastecimento",
+        description: "Processos físicos, químicos e biológicos de tratamento de água para consumo humano, incluindo coagulação, floculação, sedimentação, filtração e desinfecção.",
+        topics: ["Qualidade da água bruta e padrões de potabilidade (Portaria GM/MS 888/2021)","Coagulação química: mecanismos e coagulantes","Floculação: tipos de floculadores e cinética","Decantação e flotação","Filtração: filtros lentos e rápidos","Desinfecção: cloro, ozônio, UV e outros métodos","Fluoretação da água","Abrandamento e remoção de ferro e manganês","Tratamento de água subterrânea","Controle de qualidade e monitoramento","Resíduos gerados no tratamento de água (lodo de ETA)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","DI BERNARDO, L.; DANTAS, A. D. B. Métodos e Técnicas de Tratamento de Água. 2ª ed. São Carlos: RiMa, 2005.","LIBÂNIO, M. Fundamentos de Qualidade e Tratamento de Água. 3ª ed. Campinas: Átomo, 2010.","BRASIL. Portaria GM/MS nº 888/2021: Padrão de Potabilidade. Brasília: Ministério da Saúde, 2021.","📗 BIBLIOGRAFIA COMPLEMENTAR","APHA; AWWA; WEF. Standard Methods for the Examination of Water and Wastewater. 22ª ed. Washington: APHA, 2012.","DANIEL, L. A. et al. Processos de Desinfecção e Desinfetantes Alternativos na Produção de Água Potável. São Carlos: RiMa, 2001."]
+      },
+      {
+        id: "s3-esgotamento", name: "Sistemas de Esgotamento Sanitário",
+        description: "Projeto, dimensionamento e operação de redes coletoras de esgoto sanitário e sistemas de afastamento.",
+        topics: ["Tipos de sistemas de esgotamento: separador absoluto e combinado","Componentes do sistema: redes coletoras, interceptores e emissários","Contribuição de esgotos: domésticos, industriais e pluviais","Dimensionamento de redes coletoras (NBR 9649)","Estruturas especiais: poços de visita, estações elevatórias","Materiais utilizados em tubulações de esgoto","Assentamento e ligações de tubulações","Operação e manutenção de redes de esgoto","Sistemas condominiais de esgoto","Soluções individuais de esgotamento"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","TSUTIYA, M. T.; SOBRINHO, P. A. Coleta e Transporte de Esgoto Sanitário. 3ª ed. São Paulo: Departamento de Engenharia Hidráulica da POLI/USP, 2011.","ABNT. NBR 9649: Projeto de Redes Coletoras de Esgoto Sanitário. Rio de Janeiro: ABNT, 1986.","📗 BIBLIOGRAFIA COMPLEMENTAR","AZEVEDO NETTO, J. M. et al. Técnica de Abastecimento e Tratamento de Água – v.2. 2ª ed. São Paulo: CETESB, 1979.","MELO, J. C. M. O Sistema Condominial de Esgotos. Brasília: CAESB, 1985."]
+      },
+      {
+        id: "s3-geologia", name: "Geologia Ambiental",
+        description: "Princípios de geologia e geomorfologia aplicados ao planejamento ambiental, recursos hídricos subterrâneos e obras de saneamento.",
+        topics: ["Minerais e rochas: formação e classificação","Solos: pedogênese, classificação e propriedades","Geomorfologia: formas de relevo e processos geomorfológicos","Hidrologia subterrânea: aquíferos e poços","Investigação geotécnica do subsolo","Erosão e movimentos de massa","Contaminação do solo e águas subterrâneas","Geologia aplicada a aterros sanitários","Mapeamento geológico e uso do solo"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","PRESS, F. et al. Para Entender a Terra. 4ª ed. Porto Alegre: Bookman, 2006.","TEIXEIRA, W. et al. (org.). Decifrando a Terra. São Paulo: Oficina de Textos, 2000.","📗 BIBLIOGRAFIA COMPLEMENTAR","FETTER, C. W. Applied Hydrogeology. 4ª ed. New Jersey: Prentice Hall, 2001.","SUGUIO, K. Geologia Sedimentar. São Paulo: Edgard Blücher, 2003."]
+      },
+      {
+        id: "s3-legislacao", name: "Legislação Ambiental e Sanitária",
+        description: "Arcabouço legal ambiental e sanitário brasileiro, incluindo licenciamento, normas de qualidade e responsabilidade civil e criminal.",
+        topics: ["Constituição Federal: artigos relacionados ao meio ambiente","Lei nº 6.938/1981: Política Nacional do Meio Ambiente","CONAMA: Resoluções de relevância em saneamento","Lei nº 9.433/1997: Política Nacional de Recursos Hídricos","Lei nº 11.445/2007 e Marco Legal do Saneamento (Lei nº 14.026/2020)","Lei nº 12.305/2010: Política Nacional de Resíduos Sólidos","Licenciamento ambiental: EIA/RIMA e licenças","Código Florestal (Lei nº 12.651/2012)","Responsabilidade civil, administrativa e penal ambiental","Legislação estadual e municipal de saneamento"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. Lei nº 6.938/1981: Política Nacional do Meio Ambiente. Brasília, 1981.","BRASIL. Lei nº 11.445/2007: Diretrizes Nacionais para o Saneamento Básico. Brasília, 2007.","BRASIL. Lei nº 12.305/2010: Política Nacional de Resíduos Sólidos. Brasília, 2010.","📗 BIBLIOGRAFIA COMPLEMENTAR","MACHADO, P. A. L. Direito Ambiental Brasileiro. 21ª ed. São Paulo: Malheiros, 2013.","MILARÉ, É. Direito do Ambiente. 9ª ed. São Paulo: RT, 2014."]
+      }
+    ]
+  },
+  {
+    id: "sem4", label: "4º Semestre",
+    subjects: [
+      {
+        id: "s4-tratamento-esgoto", name: "Tratamento de Esgotos Sanitários",
+        description: "Processos físicos, químicos e biológicos de tratamento de esgotos domésticos, industriais e lodo.",
+        topics: ["Caracterização de esgotos sanitários: parâmetros físicos, químicos e biológicos","Tratamento preliminar: gradeamento, caixa de areia e medição de vazão","Tratamento primário: decantação primária","Tratamento biológico aeróbio: lodos ativados e suas variações","Tratamento biológico aeróbio: filtros biológicos e biodiscos","Tratamento biológico anaeróbio: reatores UASB e fossas sépticas","Tratamento terciário: remoção de nitrogênio e fósforo","Desinfecção de efluentes tratados","Tratamento e destinação do lodo","Reúso de efluentes tratados","Dimensionamento de Estações de Tratamento de Esgoto (ETE)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","VON SPERLING, M. Introdução à Qualidade das Águas e ao Tratamento de Esgotos – v.1. 3ª ed. Belo Horizonte: UFMG, 2005.","VON SPERLING, M. Lodos Ativados – v.4. 2ª ed. Belo Horizonte: UFMG, 2002.","📗 BIBLIOGRAFIA COMPLEMENTAR","ANDREOLI, C. V.; VON SPERLING, M.; FERNANDES, F. (org.). Lodo de Esgotos: Tratamento e Disposição Final. Belo Horizonte: UFMG/ABES, 2001.","CHERNICHARO, C. A. L. Reatores Anaeróbios – v.5. 2ª ed. Belo Horizonte: UFMG, 2007.","JORDÃO, E. P.; PESSÔA, C. A. Tratamento de Esgotos Domésticos. 6ª ed. Rio de Janeiro: ABES, 2011."]
+      },
+      {
+        id: "s4-residuos", name: "Resíduos Sólidos Urbanos",
+        description: "Geração, caracterização, coleta, tratamento e disposição final de resíduos sólidos urbanos e industriais.",
+        topics: ["Classificação de resíduos sólidos (NBR 10004)","Caracterização gravimétrica de resíduos","Geração per capita e variações sazonais","Acondicionamento e coleta de RSU","Coleta seletiva e logística reversa","Transbordo e transporte de resíduos","Reciclagem: materiais e processos","Compostagem: princípios e técnicas","Tratamento térmico: incineração e co-processamento","Aterros sanitários: projeto, operação e monitoramento","Gerenciamento de resíduos especiais: RSS, resíduos perigosos","PNRS e Planos Municipais de Gestão de Resíduos Sólidos"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ABNT. NBR 10004: Resíduos Sólidos – Classificação. Rio de Janeiro: ABNT, 2004.","MONTEIRO, J. H. P. et al. Manual de Gerenciamento Integrado de Resíduos Sólidos. Rio de Janeiro: IBAM, 2001.","PEREIRA NETO, J. T. Gerenciamento do Lixo Urbano. Viçosa: UFV, 2007.","📗 BIBLIOGRAFIA COMPLEMENTAR","BRASIL. Lei nº 12.305/2010 e Decreto nº 7.404/2010: Política Nacional de Resíduos Sólidos. Brasília, 2010.","LIMA, L. M. Q. Tratamento de Lixo. 2ª ed. São Paulo: Hemus, 1991."]
+      },
+      {
+        id: "s4-drenagem", name: "Drenagem Urbana",
+        description: "Planejamento, projeto e gestão de sistemas de drenagem pluvial urbana e controle de inundações.",
+        topics: ["Hidrologia urbana: ciclo hidrológico e impermeabilização","Precipitação: análise de séries históricas e curvas IDF","Escoamento superficial: métodos de estimativa (Racional e SCS)","Dimensionamento de galerias pluviais e bueiros","Estruturas de captação: bocas de lobo e poços de visita","Macrodrenagem: canais e córregos urbanos","Controle de cheias: reservatórios de detenção e retenção","Técnicas compensatórias: trincheiras, poços de infiltração e pavimentos permeáveis","Impactos da urbanização na drenagem","Planos Diretores de Drenagem Urbana"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","TUCCI, C. E. M. (org.). Hidrologia: Ciência e Aplicação. 4ª ed. Porto Alegre: UFRGS/ABRH, 2009.","TUCCI, C. E. M. Gestão de Águas Pluviais Urbanas. Brasília: MCI/OPAS/OMB, 2005.","📗 BIBLIOGRAFIA COMPLEMENTAR","CANHOLI, A. P. Drenagem Urbana e Controle de Enchentes. São Paulo: Oficina de Textos, 2005.","CHOW, V. T.; MAIDMENT, D. R.; MAYS, L. W. Applied Hydrology. New York: McGraw-Hill, 1988."]
+      },
+      {
+        id: "s4-monitoramento", name: "Monitoramento Ambiental",
+        description: "Métodos e técnicas de monitoramento da qualidade da água, ar e solo, incluindo análise de dados e elaboração de relatórios.",
+        topics: ["Planejamento de programas de monitoramento","Coleta e preservação de amostras de água","Parâmetros de qualidade da água: físicos, químicos e biológicos","Análise de qualidade do ar: poluentes e metodologias","Monitoramento de solo e sedimentos","Bioindicadores e biomonitoramento","Sistemas de informação geográfica (SIG) no monitoramento","Telemetria e sistemas de monitoramento automatizados","Análise estatística de dados ambientais","Elaboração de relatórios de monitoramento"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","APHA; AWWA; WEF. Standard Methods for the Examination of Water and Wastewater. 22ª ed. Washington: APHA, 2012.","BRASIL. CONAMA Resolução nº 357/2005: Classificação dos Corpos de Água. Brasília: CONAMA, 2005.","📗 BIBLIOGRAFIA COMPLEMENTAR","CETESB. Guia Nacional de Coleta e Preservação de Amostras. Brasília: ANA/CETESB, 2011.","ROCHA, J. C.; ROSA, A. H.; CARDOSO, A. A. Introdução à Química Ambiental. 2ª ed. Porto Alegre: Bookman, 2009."]
+      },
+      {
+        id: "s4-geoprocessamento", name: "Geoprocessamento e Cartografia",
+        description: "Ferramentas de geoprocessamento e sistemas de informação geográfica aplicados ao planejamento e gestão em saneamento ambiental.",
+        topics: ["Cartografia básica: projeções e sistemas de coordenadas","Sensoriamento remoto: princípios e aplicações","Sistemas de Informação Geográfica (SIG/GIS)","Softwares de GIS: QGIS e ArcGIS","Coleta de dados geoespaciais: GPS e levantamentos","Análise espacial: interpolação e sobreposição de camadas","Modelagem digital de terreno (MDT/MDE)","Aplicações em saneamento: mapeamento de redes e bacias","Elaboração de mapas temáticos","Banco de dados geográficos"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","CÂMARA, G.; DAVIS, C.; MONTEIRO, A. M. V. (org.). Introdução à Ciência da Geoinformação. São José dos Campos: INPE, 2001.","LONGLEY, P. A. et al. Sistemas e Ciência da Informação Geográfica. 3ª ed. Porto Alegre: Bookman, 2013.","📗 BIBLIOGRAFIA COMPLEMENTAR","CÂMARA, G. et al. Análise Espacial de Dados Geográficos. Brasília: EMBRAPA, 2004.","MOREIRA, M. A. Fundamentos do Sensoriamento Remoto e Metodologias de Aplicação. 4ª ed. Viçosa: UFV, 2011."]
+      }
+    ]
+  },
+  {
+    id: "sem5", label: "5º Semestre",
+    subjects: [
+      {
+        id: "s5-qualidade-agua", name: "Qualidade de Água e Corpos Hídricos",
+        description: "Estudo da qualidade dos recursos hídricos, modelagem de qualidade da água e enquadramento de corpos d'água.",
+        topics: ["Parâmetros de qualidade de água: DBO, DQO, OD e nutrientes","Ciclo do oxigênio dissolvido em rios (curva do sag)","Modelagem de qualidade da água em rios e reservatórios","Eutrofização de lagos e reservatórios","Enquadramento de corpos d'água (CONAMA 357/2005)","Outorga de uso da água","Cobrança pelo uso da água","Planos de recursos hídricos","Comitês de bacias hidrográficas","Impactos do lançamento de efluentes em corpos receptores"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","VON SPERLING, M. Introdução à Qualidade das Águas e ao Tratamento de Esgotos – v.1. 3ª ed. Belo Horizonte: UFMG, 2005.","BRASIL. CONAMA Resolução nº 357/2005. Brasília, 2005.","📗 BIBLIOGRAFIA COMPLEMENTAR","CHAPRA, S. C. Surface Water-Quality Modeling. New York: McGraw-Hill, 1997.","ESTEVES, F. A. Fundamentos de Limnologia. 3ª ed. Rio de Janeiro: Interciência, 2011."]
+      },
+      {
+        id: "s5-impacto-ambiental", name: "Avaliação de Impacto Ambiental",
+        description: "Métodos e instrumentos de avaliação de impacto ambiental, EIA/RIMA e outras ferramentas de gestão ambiental.",
+        topics: ["Conceito e evolução da AIA no Brasil e no mundo","Estudo de Impacto Ambiental (EIA) e RIMA","Resolução CONAMA 01/1986 e 237/1997","Métodos de identificação e avaliação de impactos","Valoração econômica de impactos ambientais","Monitoramento e gestão ambiental pós-implantação","Avaliação Ambiental Estratégica (AAE)","Licenciamento ambiental de obras de saneamento","Estudos de caso: EIA de sistemas de saneamento","Participação pública no processo de AIA"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. CONAMA Resolução nº 001/1986: Critérios Básicos e Diretrizes para AIA. Brasília, 1986.","SANCHEZ, L. E. Avaliação de Impacto Ambiental: Conceitos e Métodos. 2ª ed. São Paulo: Oficina de Textos, 2013.","📗 BIBLIOGRAFIA COMPLEMENTAR","TOMMASI, L. R. Estudo de Impacto Ambiental. São Paulo: CETESB, 1993."]
+      },
+      {
+        id: "s5-saneamento-rural", name: "Saneamento Rural e Saúde Pública",
+        description: "Soluções de saneamento para áreas rurais, comunidades tradicionais e relação com a saúde pública.",
+        topics: ["Diagnóstico de saneamento em áreas rurais","Captação e tratamento de água em pequenas comunidades","Soluções de esgotamento sanitário rural: fossa séptica e sumidouro","Manejo de resíduos sólidos em meio rural","Doenças de veiculação hídrica e parasitárias","Indicadores de saúde e saneamento","Saneamento em comunidades indígenas e quilombolas","Tecnologias sociais de saneamento","Educação sanitária e ambiental","Programas governamentais de saneamento rural"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","FUNASA. Manual de Saneamento. 4ª ed. Brasília: FUNASA, 2015.","PHILIPPI JR., A. (ed.). Saneamento, Saúde e Ambiente. Barueri: Manole, 2005.","📗 BIBLIOGRAFIA COMPLEMENTAR","BARCELLOS, C.; QUITÉRIO, L. A. D. Vigilância Ambiental em Saúde e sua Implantação no SUS. Revista de Saúde Pública, v.40, n.1, 2006.","HELLER, L. Saneamento e Saúde. Brasília: OPAS/OMS, 1997."]
+      },
+      {
+        id: "s5-poluicao-ar", name: "Poluição do Ar e Controle",
+        description: "Fontes, dispersão e controle da poluição atmosférica, incluindo normas de qualidade do ar e gestão da qualidade atmosférica.",
+        topics: ["Composição da atmosfera e meteorologia aplicada","Fontes de poluição do ar: fixas e móveis","Poluentes atmosféricos primários e secundários","Dispersão de poluentes na atmosfera","Padrões de qualidade do ar (CONAMA 03/1990 e 491/2018)","Monitoramento da qualidade do ar","Equipamentos de controle de poluição do ar","Gases de efeito estufa e mudanças climáticas","Odores industriais e impacto em saneamento","Legislação e regulação da qualidade do ar"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. CONAMA Resolução nº 491/2018: Padrões de Qualidade do Ar. Brasília, 2018.","BRAGA, B. et al. Introdução à Engenharia Ambiental. 2ª ed. São Paulo: Pearson Prentice Hall, 2005.","DERISIO, J. C. Introdução ao Controle de Poluição Ambiental. 4ª ed. São Paulo: Oficina de Textos, 2012.","📗 BIBLIOGRAFIA COMPLEMENTAR","SEINFELD, J. H.; PANDIS, S. N. Atmospheric Chemistry and Physics. 3ª ed. New York: Wiley, 2016."]
+      },
+      {
+        id: "s5-gestao", name: "Gestão de Serviços de Saneamento",
+        description: "Modelos de gestão, regulação, tarifação e prestação dos serviços públicos de saneamento básico.",
+        topics: ["Modelos de prestação dos serviços de saneamento","Regulação dos serviços: ARSAE, ARSESP e outras agências","Concessões e parcerias público-privadas (PPP)","Tarifação dos serviços de água e esgoto","Planejamento e contratos de programas","Indicadores de desempenho (SNIS)","Gestão financeira e econômica das operadoras","Planos Municipais de Saneamento Básico (PMSB)","Participação social na gestão do saneamento","Benchmarking e melhores práticas internacionais"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. Lei nº 11.445/2007 e Lei nº 14.026/2020. Brasília.","BNDES. Panorama do Saneamento Básico no Brasil. Rio de Janeiro: BNDES, 2013.","📗 BIBLIOGRAFIA COMPLEMENTAR","ANA. Atlas de Esgotos: Despoluição de Bacias Hidrográficas. Brasília: ANA, 2017.","TUROLLA, F. A. Política de Saneamento Básico: Avanços Recentes e Opções Futuras de Políticas Públicas. Texto para Discussão IPEA, nº 922, 2002."]
+      }
+    ]
+  },
+  {
+    id: "sem6", label: "6º Semestre",
+    subjects: [
+      {
+        id: "s6-reuso", name: "Reúso de Água e Efluentes",
+        description: "Tecnologias e práticas para reúso de água e efluentes tratados em diferentes aplicações.",
+        topics: ["Conceitos e classificação do reúso de água","Qualidade necessária para diferentes usos","CONAMA 430/2011 e NBR 13969: padrões de lançamento e reúso","Reúso urbano: irrigação de parques e lavagem de vias","Reúso industrial: água de resfriamento e processos","Reúso agrícola: riscos e legislação","Reúso indireto potável não planejado e planejado","Tecnologias de polimento de efluentes para reúso","Gestão de sistemas de distribuição dupla","Casos de sucesso no mundo e no Brasil"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. CONAMA Resolução nº 430/2011: Condições de Lançamento de Efluentes. Brasília, 2011.","MANCUSO, P. C. S.; SANTOS, H. F. (org.). Reúso de Água. Barueri: Manole, 2003.","📗 BIBLIOGRAFIA COMPLEMENTAR","ANA. Conjuntura dos Recursos Hídricos no Brasil. Brasília: ANA, 2020.","WHO. WHO Guidelines for the Safe Use of Wastewater, Excreta and Greywater. Geneva: WHO, 2006."]
+      },
+      {
+        id: "s6-contaminacao-solo", name: "Contaminação e Remediação de Solo",
+        description: "Avaliação e remediação de áreas contaminadas, gerenciamento de passivos ambientais e proteção de aquíferos.",
+        topics: ["Fontes de contaminação do solo e água subterrânea","Comportamento de contaminantes no solo (LNAPL, DNAPL)","Avaliação preliminar e confirmatória de áreas contaminadas","Investigação detalhada: sondagens e análises","Análise de risco em áreas contaminadas","Tecnologias de remediação: ex situ e in situ","Biorremediação e fitorremediação","Monitoramento de áreas em processo de remediação","Legislação e cadastro de áreas contaminadas","Gerenciamento de passivos ambientais"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","CETESB. Manual de Gerenciamento de Áreas Contaminadas. 2ª ed. São Paulo: CETESB, 2001.","BRASIL. CONAMA Resolução nº 420/2009: Critérios e Valores Orientadores de Qualidade do Solo. Brasília, 2009.","📗 BIBLIOGRAFIA COMPLEMENTAR","FETTER, C. W. Contaminant Hydrogeology. 2ª ed. New Jersey: Prentice Hall, 1999.","WATTS, R. J. Hazardous Wastes: Sources, Pathways, Receptors. New York: Wiley, 1997."]
+      },
+      {
+        id: "s6-saneamento-emergencia", name: "Saneamento em Situações de Emergência",
+        description: "Estratégias e tecnologias de saneamento para situações de emergência, desastres naturais e contextos humanitários.",
+        topics: ["Desastres naturais e impactos no saneamento","Avaliação rápida de necessidades em emergências","Sistemas de abastecimento de água em emergências","Tratamento de água em campo: cloração e filtração","Esgotamento sanitário em acampamentos","Higiene e promoção de saúde em situações de crise","Gerenciamento de resíduos sólidos em emergências","Protocolos internacionais: Esfera e WASH","Comunicação e coordenação em crises","Recuperação pós-desastre: infraestrutura de saneamento"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ESFERA. Manual Esfera: Carta Humanitária e Padrões Mínimos em Resposta Humanitária. Genebra: Projeto Esfera, 2018.","WHO; UNICEF. WASH in Humanitarian Action: Key Resources. Geneva: WHO, 2019.","📗 BIBLIOGRAFIA COMPLEMENTAR","DAVIS, J.; LAMBERT, R. Engineering in Emergencies. 2ª ed. London: ITDG, 2002.","WHO. Technical Notes on Drinking-water, Sanitation and Hygiene in Emergencies. Geneva: WHO, 2011."]
+      },
+      {
+        id: "s6-industrias", name: "Controle da Poluição Industrial",
+        description: "Gestão ambiental e controle da poluição em processos industriais, incluindo tratamento de efluentes líquidos e gasosos.",
+        topics: ["Processos industriais e geração de poluição","Caracterização de efluentes industriais","Processos físico-químicos de tratamento: coagulação, flotação e neutralização","Tratamento biológico de efluentes industriais","Tratamento de efluentes de indústrias específicas (alimentícia, têxtil, galvanoplastia)","Controle de emissões atmosféricas industriais","Gerenciamento de resíduos sólidos industriais","CONAMA 430/2011 e padrões de lançamento industriais","Licenciamento ambiental industrial","Produção mais limpa (P+L) e ecoeficiência"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRAILE, P. M.; CAVALCANTI, J. E. W. A. Manual de Tratamento de Águas Residuárias Industriais. São Paulo: CETESB, 1993.","METCALF; EDDY. Wastewater Engineering: Treatment and Resource Recovery. 5ª ed. New York: McGraw-Hill, 2014.","📗 BIBLIOGRAFIA COMPLEMENTAR","BRASIL. CONAMA Resolução nº 430/2011. Brasília, 2011.","EPA. Pollution Prevention and Control Technologies for Plating Operations. Washington: EPA, 1994."]
+      },
+      {
+        id: "s6-projeto", name: "Projeto de Sistemas de Saneamento",
+        description: "Integração dos conhecimentos adquiridos para o desenvolvimento de projetos completos de sistemas de saneamento.",
+        topics: ["Metodologia de elaboração de projetos de saneamento","Levantamento topográfico e cadastro de redes","Diagnóstico e planejamento de sistemas de saneamento","Projeto de sistema de abastecimento de água","Projeto de rede coletora de esgoto sanitário","Projeto de Estação de Tratamento de Água (ETA)","Projeto de Estação de Tratamento de Esgoto (ETE)","Memorial descritivo e especificações técnicas","Orçamento e cronograma de obras de saneamento","Licitações e contratos em obras públicas de saneamento"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ABNT. NBR 12218: Projeto de Rede de Distribuição de Água para Abastecimento Público. Rio de Janeiro: ABNT, 1994.","ABNT. NBR 9649: Projeto de Redes Coletoras de Esgoto Sanitário. Rio de Janeiro: ABNT, 1986.","TSUTIYA, M. T. Abastecimento de Água. 4ª ed. São Paulo: POLI/USP, 2006.","📗 BIBLIOGRAFIA COMPLEMENTAR","BRASIL. Lei nº 8.666/1993: Licitações e Contratos da Administração Pública. Brasília, 1993.","SNSA/MCidades. Guia para Elaboração de Planos Municipais de Saneamento. Brasília: MCidades, 2006."]
+      }
+    ]
+  },
+  {
+    id: "sem7", label: "7º Semestre",
+    subjects: [
+      {
+        id: "s7-estagio", name: "Estágio Supervisionado",
+        description: "Prática profissional supervisionada em empresas, órgãos públicos ou laboratórios da área de saneamento ambiental.",
+        topics: ["Regulamentação do estágio: Lei nº 11.788/2008","Escolha da área e empresa de estágio","Elaboração do plano de estágio","Atividades práticas na área de saneamento","Relatório de estágio: estrutura e normas ABNT","Supervisão e avaliação do desempenho","Ética profissional e responsabilidade","Apresentação das atividades desenvolvidas","Registro no CREA/CFT: atribuições do tecnólogo"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BRASIL. Lei nº 11.788/2008: Lei do Estágio. Brasília, 2008.","ABNT. NBR 14724: Trabalhos Acadêmicos – Apresentação. Rio de Janeiro: ABNT, 2011.","📗 BIBLIOGRAFIA COMPLEMENTAR","PICONEZ, S. C. B. A Prática de Ensino e o Estágio Supervisionado. 22ª ed. Campinas: Papirus, 2010."]
+      },
+      {
+        id: "s7-tcc", name: "Trabalho de Conclusão de Curso (TCC)",
+        description: "Desenvolvimento de pesquisa, projeto ou estudo de caso nas áreas de saneamento ambiental, sob orientação de docente.",
+        topics: ["Escolha e delimitação do tema de pesquisa","Revisão bibliográfica e referencial teórico","Metodologia de pesquisa: tipos e abordagens","Normas da ABNT para TCC (NBR 14724, 6023, 6028)","Coleta e análise de dados","Resultados e discussão","Conclusões e recomendações","Apresentação e defesa do TCC perante banca","Publicação e divulgação científica"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ABNT. NBR 14724: Informação e Documentação – Trabalhos Acadêmicos – Apresentação. Rio de Janeiro: ABNT, 2011.","ABNT. NBR 6023: Informação e Documentação – Referências – Elaboração. Rio de Janeiro: ABNT, 2018.","GIL, A. C. Como Elaborar Projetos de Pesquisa. 5ª ed. São Paulo: Atlas, 2010.","📗 BIBLIOGRAFIA COMPLEMENTAR","LAKATOS, E. M.; MARCONI, M. A. Fundamentos de Metodologia Científica. 7ª ed. São Paulo: Atlas, 2010.","SEVERINO, A. J. Metodologia do Trabalho Científico. 23ª ed. São Paulo: Cortez, 2007."]
+      },
+      {
+        id: "s7-gestao-ambiental", name: "Sistemas de Gestão Ambiental",
+        description: "ISO 14001, EMAS e outros sistemas de gestão ambiental aplicados a empresas e prestadoras de serviços de saneamento.",
+        topics: ["Evolução da gestão ambiental empresarial","ISO 14001:2015: requisitos e implementação","Auditoria ambiental: tipos e procedimentos","EMAS: Sistema Comunitário de Ecogestão e Auditoria","Política ambiental e compromisso da alta direção","Aspectos e impactos ambientais significativos","Objetivos e metas ambientais","Programas de gestão ambiental","Análise crítica e melhoria contínua","Integração com ISO 9001 (qualidade) e ISO 45001 (saúde e segurança)"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ABNT. NBR ISO 14001:2015: Sistemas de Gestão Ambiental. Rio de Janeiro: ABNT, 2015.","BARBIERI, J. C. Gestão Ambiental Empresarial: Conceitos, Modelos e Instrumentos. 3ª ed. São Paulo: Saraiva, 2011.","📗 BIBLIOGRAFIA COMPLEMENTAR","LA ROVERE, E. L. (coord.). Manual de Auditoria Ambiental. Rio de Janeiro: Qualitymark, 2000.","TIBOR, T.; FELDMAN, I. ISO 14000: Um Guia para as Novas Normas de Gestão Ambiental. São Paulo: Futura, 1996."]
+      },
+      {
+        id: "s7-tecnologias-inovacao", name: "Tecnologias Inovadoras em Saneamento",
+        description: "Tendências tecnológicas e inovações aplicadas ao saneamento ambiental, incluindo digitalização, automação e soluções baseadas na natureza.",
+        topics: ["Saneamento 4.0: digitalização e automação de sistemas","Telemetria e SCADA em sistemas de saneamento","Big data e inteligência artificial em gestão hídrica","Soluções baseadas na natureza (SBN) para saneamento","Wetlands construídos e biofiltros","Dessalinização: tecnologias e aplicações","Tratamento de água descentralizado e ponto de uso","Sanitários ecológicos e compostagem de dejetos","Biodigestão e aproveitamento energético do biogás","Economia circular aplicada ao saneamento"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","WHO; UNICEF. Progress on Household Drinking Water, Sanitation and Hygiene 2000-2020. Geneva: WHO/UNICEF, 2021.","IWA. The IWA Principles for Water Wise Cities. London: IWA, 2016.","VON SPERLING, M. Wetlands Construídos para Tratamento de Esgotos. Belo Horizonte: UFMG, 2017.","📗 BIBLIOGRAFIA COMPLEMENTAR","LENS, P. et al. Decentralised Sanitation and Reuse: Concepts, Systems and Implementation. London: IWA, 2001."]
+      },
+      {
+        id: "s7-topicos-especiais", name: "Tópicos Especiais em Saneamento Ambiental",
+        description: "Aprofundamento em temas contemporâneos e emergentes da área de saneamento ambiental.",
+        topics: ["Mudanças climáticas e adaptação dos sistemas de saneamento","Universalização do saneamento: desafios e estratégias","Saúde One Health: interface entre saúde humana, animal e ambiental","Micropoluentes emergentes: fármacos e disruptores endócrinos","Poluição plástica e microplásticos na água","Resiliência de infraestruturas de saneamento","ODS 6: acesso à água limpa e saneamento","Cooperação internacional em saneamento","Mercado de carbono e saneamento","Perspectivas para o setor de saneamento no Brasil pós-Marco Legal"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","ONU. Objetivos de Desenvolvimento Sustentável: ODS 6 – Água Potável e Saneamento. Nova York: ONU, 2015.","BRASIL. Lei nº 14.026/2020: Marco Legal do Saneamento Básico. Brasília, 2020.","IPCC. Sixth Assessment Report: Climate Change 2021. Geneva: IPCC, 2021.","📗 BIBLIOGRAFIA COMPLEMENTAR","ANA. Plano Nacional de Segurança Hídrica. Brasília: ANA, 2019.","WHO. Antimicrobial Resistance: Global Report on Surveillance. Geneva: WHO, 2014."]
+      }
+    ]
+  },
+  {
+    id: "sem-opt", label: "Optativas",
+    subjects: [
+      {
+        id: "opt-ingles", name: "Inglês Técnico",
+        description: "Leitura e interpretação de textos técnicos e científicos em inglês na área de saneamento e engenharia ambiental.",
+        topics: ["Estratégias de leitura de textos técnicos em inglês","Vocabulário técnico de saneamento e meio ambiente","Interpretação de artigos científicos e normas internacionais","Tradução técnica: principais dificuldades e armadilhas","Leitura de manuais técnicos e relatórios internacionais","Comunicação básica em inglês para o ambiente profissional"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","MURPHY, R. English Grammar in Use. 4ª ed. Cambridge: Cambridge University Press, 2012.","OXFORD. Oxford Advanced Learner's Dictionary. 10ª ed. Oxford: OUP, 2020.","📗 BIBLIOGRAFIA COMPLEMENTAR","LIMA, D. Inglês para Engenheiros. São Paulo: Campus, 2010.","VINCE, M. Advanced Language Practice. 3ª ed. Oxford: Macmillan, 2009."]
+      },
+      {
+        id: "opt-empreendedorismo", name: "Empreendedorismo e Inovação",
+        description: "Fundamentos do empreendedorismo, plano de negócios e inovação aplicados ao setor de saneamento e meio ambiente.",
+        topics: ["Conceitos de empreendedorismo e intraempreendedorismo","Identificação de oportunidades de negócio em saneamento","Modelos de negócio: Canvas e outros frameworks","Elaboração de plano de negócios","Fontes de financiamento: BNDES, FINEP e investidores","Startups e ecossistemas de inovação em saneamento","Propriedade intelectual e patentes","Marketing e posicionamento no setor ambiental","Gestão de equipes e liderança"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","DORNELAS, J. C. A. Empreendedorismo: Transformando Ideias em Negócios. 6ª ed. São Paulo: Atlas, 2016.","OSTERWALDER, A.; PIGNEUR, Y. Business Model Generation. Rio de Janeiro: Alta Books, 2011.","📗 BIBLIOGRAFIA COMPLEMENTAR","BLANK, S.; DORF, B. Startup: Manual do Empreendedor. Rio de Janeiro: Alta Books, 2014.","DRUCKER, P. F. Inovação e Espírito Empreendedor. São Paulo: Cengage Learning, 2016."]
+      },
+      {
+        id: "opt-topografia", name: "Topografia",
+        description: "Técnicas topográficas para levantamentos, medições e projeto de obras de saneamento.",
+        topics: ["Conceitos básicos de topografia e geodésia","Instrumentos topográficos: nível e teodolito","Levantamento planimétrico: poligonal, irradiação e interseção","Nivelamento geométrico e trigonométrico","Perfis longitudinais e transversais","Locação de obras: redes de água e esgoto","GPS e equipamentos eletrônicos modernos","Cálculo de áreas e volumes de terra","Introdução ao levantamento com drone"],
+        bibliography: ["📚 BIBLIOGRAFIA BÁSICA","BORGES, A. C. Topografia. 2 volumes. São Paulo: Edgard Blücher, 1977.","COMASTRI, J. A.; TULER, J. C. Topografia: Altimetria. 3ª ed. Viçosa: UFV, 1999.","📗 BIBLIOGRAFIA COMPLEMENTAR","MCCORMAC, J. Topografia. 6ª ed. Rio de Janeiro: LTC, 2007.","VEIGA, L. A. K.; ZANETTI, M. A. Z.; FAGGION, P. L. Fundamentos de Topografia. Curitiba: UFPR, 2012."]
+      }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+const STORAGE_PROGRESS = 'sa-study-progress';
+const STORAGE_NOTES    = 'sa-study-notes';
+const STORAGE_THEME    = 'theme';
+
+function loadJSON(key, fallback) {
+  try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : fallback; } catch { return fallback; }
+}
+function saveJSON(key, data) { try { localStorage.setItem(key, JSON.stringify(data)); } catch {} }
+
+let checkedTopics = loadJSON(STORAGE_PROGRESS, {});
+let notes         = loadJSON(STORAGE_NOTES, {});
+let isDark        = localStorage.getItem(STORAGE_THEME) === 'dark';
+let activeSem     = curriculum[0].id;
+let openSubjects  = new Set();
+let isAllExpanded = false;
+let searchTerm    = '';
+
+// Pre-compute totals
+const subjectTotals = {};
+const semesterSubjects = {};
+let totalTopics = 0;
+for (const sem of curriculum) {
+  semesterSubjects[sem.id] = [];
+  for (const sub of sem.subjects) {
+    subjectTotals[sub.id] = sub.topics.length;
+    semesterSubjects[sem.id].push(sub.id);
+    totalTopics += sub.topics.length;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// PROGRESS HELPERS
+// ══════════════════════════════════════════════════════════
+function getSubjectProgress(subId) {
+  const checked = (checkedTopics[subId] || []).length;
+  const total   = subjectTotals[subId] || 0;
+  return { checked, total, percent: total > 0 ? Math.round((checked/total)*100) : 0 };
+}
+function getSemesterProgress(semId) {
+  let checked=0, total=0;
+  for (const id of (semesterSubjects[semId]||[])) {
+    checked += (checkedTopics[id]||[]).length;
+    total   += subjectTotals[id]||0;
+  }
+  return { checked, total, percent: total>0 ? Math.round((checked/total)*100) : 0 };
+}
+function getOverallProgress() {
+  let checked=0;
+  for (const arr of Object.values(checkedTopics)) checked += arr.length;
+  return { checked, total: totalTopics, percent: totalTopics>0 ? Math.round((checked/totalTopics)*100) : 0 };
+}
+function isTopicChecked(subId, idx) { return (checkedTopics[subId]||[]).includes(idx); }
+function isSubjectCompleted(subId) {
+  const p = getSubjectProgress(subId);
+  return p.total > 0 && p.checked === p.total;
+}
+function getCompletedSubjectsCount() {
+  let c=0;
+  for (const sem of curriculum) for (const sub of sem.subjects) if (isSubjectCompleted(sub.id)) c++;
+  return c;
+}
+function getNotesCount() { return Object.values(notes).filter(n=>n&&n.trim()).length; }
+
+// ══════════════════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════════════════
+function applyTheme() {
+  document.body.classList.toggle('dark', isDark);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+}
+function toggleTheme() {
+  isDark = !isDark;
+  localStorage.setItem(STORAGE_THEME, isDark ? 'dark' : 'light');
+  applyTheme();
+}
+
+// ══════════════════════════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════════════════════════
+let searchTimeout;
+function handleSearch(val) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    searchTerm = val.toLowerCase().trim();
+    openSubjects = new Set();
+    isAllExpanded = false;
+    document.getElementById('search-clear').classList.toggle('visible', val.length > 0);
+    renderAll();
+  }, 150);
+}
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').classList.remove('visible');
+  searchTerm = '';
+  openSubjects = new Set();
+  isAllExpanded = false;
+  renderAll();
+}
+
+function getSearchResults() {
+  if (!searchTerm) return [];
+  const results = [];
+  for (const sem of curriculum) {
+    for (const sub of sem.subjects) {
+      const hay = `${sub.name}\0${sub.description}\0${sub.topics.join('\0')}\0${sub.bibliography.join('\0')}`.toLowerCase();
+      if (hay.includes(searchTerm)) results.push({ ...sub, semLabel: sem.label });
+    }
+  }
+  return results;
+}
+
+// ══════════════════════════════════════════════════════════
+// TABS RENDER
+// ══════════════════════════════════════════════════════════
+function renderTabs() {
+  const container = document.getElementById('tabs-scroll');
+  container.innerHTML = '';
+  for (const sem of curriculum) {
+    const p = getSemesterProgress(sem.id);
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (sem.id === activeSem && !searchTerm ? ' active' : '');
+    btn.onclick = () => switchSem(sem.id);
+    const dotClass = p.percent === 100 ? 'complete' : p.percent > 0 ? 'partial' : '';
+    btn.innerHTML = `<span class="tab-progress-dot ${dotClass}"></span>${sem.label}`;
+    container.appendChild(btn);
+  }
+  // expand btn
+  const expandBtn = document.getElementById('expand-btn');
+  expandBtn.textContent = isAllExpanded ? '▲ Recolher' : '▼ Expandir';
+}
+
+function switchSem(id) {
+  if (id === activeSem && !searchTerm) return;
+  activeSem = id;
+  openSubjects = new Set();
+  isAllExpanded = false;
+  // clear search
+  if (searchTerm) {
+    searchTerm = '';
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-clear').classList.remove('visible');
+  }
+  renderAll();
+}
+
+function toggleAll() {
+  isAllExpanded = !isAllExpanded;
+  if (isAllExpanded) {
+    const subjects = searchTerm ? getSearchResults() : curriculum.find(s=>s.id===activeSem).subjects;
+    openSubjects = new Set(subjects.map(s=>s.id));
+  } else {
+    openSubjects = new Set();
+  }
+  renderAll();
+}
+
+// ══════════════════════════════════════════════════════════
+// CARDS RENDER
+// ══════════════════════════════════════════════════════════
+function renderCards() {
+  const container = document.getElementById('cards-container');
+  const isSearchActive = searchTerm.length > 0;
+  const subjects = isSearchActive ? getSearchResults() : curriculum.find(s=>s.id===activeSem).subjects;
+
+  // Context heading
+  const sem = curriculum.find(s=>s.id===activeSem);
+  const ctitle = isSearchActive ? 'Resultados da busca' : sem.label;
+  const cdesc  = isSearchActive
+    ? `${subjects.length} disciplina${subjects.length!==1?'s':''} encontrada${subjects.length!==1?'s':''} para "${document.getElementById('search-input').value}"`
+    : `${sem.subjects.length} disciplina${sem.subjects.length!==1?'s':''} – clique para expandir e marcar tópicos como estudados`;
+  document.getElementById('context-title').textContent = ctitle;
+  document.getElementById('context-desc').textContent  = cdesc;
+
+  if (subjects.length === 0 && isSearchActive) {
+    container.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>Nenhuma disciplina encontrada</p><small>Tente buscar por outro termo ou verifique a ortografia.</small></div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  subjects.forEach((subject, i) => {
+    const semLabel = subject.semLabel || (isSearchActive ? '' : sem.label);
+    container.appendChild(createCard(subject, i, semLabel));
+  });
+}
+
+function createCard(subject, index, semLabel) {
+  const p = getSubjectProgress(subject.id);
+  const completed = isSubjectCompleted(subject.id);
+  const isOpen = openSubjects.has(subject.id);
+  const noteText = notes[subject.id] || '';
+  const hasNote  = noteText.trim().length > 0;
+
+  const card = document.createElement('div');
+  card.className = `subject-card${completed?' completed':''}${isOpen?' open':''}`;
+  card.id = `card-${subject.id}`;
+
+  // Ring SVG
+  const size = 32, stroke = 3, radius = (size-stroke)/2;
+  const circumference = 2*Math.PI*radius;
+  const offset = circumference - (p.percent/100)*circumference;
+
+  card.innerHTML = `
+    <div class="subject-card-header" onclick="toggleCard('${subject.id}')">
+      <span class="card-index">${index+1}</span>
+      <span class="card-ring">
+        <svg width="${size}" height="${size}" aria-hidden="true">
+          <circle class="ring-bg" cx="${size/2}" cy="${size/2}" r="${radius}"/>
+          <circle class="ring-fg${completed?' complete':''}" cx="${size/2}" cy="${size/2}" r="${radius}"
+            stroke-linecap="round"
+            stroke-dasharray="${circumference}"
+            stroke-dashoffset="${offset}"/>
+        </svg>
+      </span>
+      <div class="card-info">
+        <div class="card-name">${subject.name}</div>
+        <div class="card-meta">${p.checked}/${p.total} tópicos · ${p.percent}%${semLabel ? ' · '+semLabel : ''}</div>
+      </div>
+      <div class="card-badges">
+        <span class="badge-completed">✓ Concluída</span>
+        <span class="badge-note${hasNote?' has-note':''}">📝</span>
+        ${semLabel && subject.semLabel ? `<span class="sem-badge">${semLabel}</span>` : ''}
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="accordion-wrapper${isOpen?' open':''}">
+      <div class="accordion-inner">
+        <div class="accordion-content">
+          <p class="card-desc">${subject.description}</p>
+
+          <div class="section-heading">Conteúdo Programático</div>
+          <ul class="topics-list">
+            ${subject.topics.map((topic, ti) => {
+              const checked = isTopicChecked(subject.id, ti);
+              return `<li class="topic-item">
+                <label class="topic-label${checked?' checked':''}">
+                  <span class="topic-cb${checked?' checked':''}" onclick="event.preventDefault();toggleTopic('${subject.id}',${ti})">
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <span>${topic}</span>
+                </label>
+              </li>`;
+            }).join('')}
+          </ul>
+
+          <div class="section-heading">Bibliografia</div>
+          <ul class="bib-list">
+            ${subject.bibliography.map(b => {
+              const isSection = b.startsWith('📚') || b.startsWith('📗');
+              return `<li class="bib-item${isSection?' section-label':''}">${b}</li>`;
+            }).join('')}
+          </ul>
+
+          <div class="card-actions">
+            <button class="card-action-btn${hasNote?' active':''}" onclick="toggleNotes('${subject.id}')">
+              📝 ${hasNote ? 'Ver anotações' : 'Adicionar anotação'}
+            </button>
+            <button class="card-action-btn" onclick="exportPDF('${subject.id}','${semLabel}')">
+              🖨️ Exportar PDF
+            </button>
+          </div>
+          <div class="notes-area" id="notes-${subject.id}">
+            <textarea class="notes-textarea" placeholder="Escreva suas anotações aqui…" oninput="saveNote('${subject.id}',this.value)">${noteText}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  return card;
+}
+
+// ══════════════════════════════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════════════════════════════
+function toggleCard(id) {
+  if (openSubjects.has(id)) openSubjects.delete(id);
+  else openSubjects.add(id);
+
+  const card = document.getElementById(`card-${id}`);
+  if (!card) return;
+  const wrapper = card.querySelector('.accordion-wrapper');
+  const isNowOpen = openSubjects.has(id);
+  card.classList.toggle('open', isNowOpen);
+  wrapper.classList.toggle('open', isNowOpen);
+  card.querySelector('.chevron').textContent = isNowOpen ? '▲' : '▼';
+}
+
+function toggleTopic(subId, topicIndex) {
+  const arr = checkedTopics[subId] || [];
+  const has  = arr.includes(topicIndex);
+  const wasCompleted = isSubjectCompleted(subId);
+
+  checkedTopics[subId] = has ? arr.filter(i=>i!==topicIndex) : [...arr, topicIndex];
+  saveJSON(STORAGE_PROGRESS, checkedTopics);
+
+  // Check celebration
+  if (!has && !wasCompleted && isSubjectCompleted(subId)) {
+    showCelebration(subId);
+    spawnConfetti();
+  }
+
+  // Update card in place
+  updateCard(subId);
+  updateInfoCards();
+  updateHeroProgress();
+  renderTabs();
+}
+
+function toggleNotes(subId) {
+  const area = document.getElementById(`notes-${subId}`);
+  if (!area) return;
+  area.classList.toggle('visible');
+  if (area.classList.contains('visible')) area.querySelector('textarea').focus();
+}
+
+function saveNote(subId, text) {
+  notes[subId] = text;
+  saveJSON(STORAGE_NOTES, notes);
+  // update badge
+  const card = document.getElementById(`card-${subId}`);
+  if (card) {
+    const badge = card.querySelector('.badge-note');
+    if (badge) badge.classList.toggle('has-note', text.trim().length > 0);
+    const btn = card.querySelector('.card-action-btn');
+    if (btn) btn.innerHTML = `📝 ${text.trim() ? 'Ver anotações' : 'Adicionar anotação'}`;
+  }
+  updateInfoCards();
+}
+
+function updateCard(subId) {
+  const cardEl = document.getElementById(`card-${subId}`);
+  if (!cardEl) return;
+  const subject = curriculum.flatMap(s=>s.subjects).find(s=>s.id===subId);
+  if (!subject) return;
+  const p = getSubjectProgress(subId);
+  const completed = isSubjectCompleted(subId);
+
+  // Update classes
+  cardEl.classList.toggle('completed', completed);
+
+  // Update ring
+  const size=32, stroke=3, radius=(size-stroke)/2;
+  const circumference = 2*Math.PI*radius;
+  const offset = circumference - (p.percent/100)*circumference;
+  const ringFg = cardEl.querySelector('.ring-fg');
+  if (ringFg) {
+    ringFg.setAttribute('stroke-dashoffset', offset);
+    ringFg.classList.toggle('complete', completed);
+  }
+
+  // Update meta
+  const meta = cardEl.querySelector('.card-meta');
+  if (meta) meta.textContent = `${p.checked}/${p.total} tópicos · ${p.percent}%`;
+
+  // Update topic checkboxes
+  subject.topics.forEach((_, ti) => {
+    const checked = isTopicChecked(subId, ti);
+    const labels = cardEl.querySelectorAll('.topic-label');
+    const label = labels[ti];
+    if (!label) return;
+    label.classList.toggle('checked', checked);
+    const cb = label.querySelector('.topic-cb');
+    if (cb) cb.classList.toggle('checked', checked);
+  });
+}
+
+function exportPDF(subId, semLabel) {
+  const subject = curriculum.flatMap(s=>s.subjects).find(s=>s.id===subId);
+  if (!subject) return;
+  const noteText = notes[subId] || '';
+  const w = window.open('', '_blank');
+  if (!w) return;
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"/><title>${subject.name} – Guia de Estudos</title><style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:32px;color:#1e293b;max-width:800px;}
+    h1{font-size:22px;color:#0f2744;margin-bottom:4px;}
+    .badge{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;display:block;}
+    p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:24px;}
+    h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748b;border-bottom:2px solid #e2e8f0;padding-bottom:6px;margin-bottom:12px;}
+    ol{padding-left:20px;margin-bottom:24px;}
+    ol li{font-size:13px;color:#374151;line-height:1.8;}
+    ul{list-style:none;padding:0;margin-bottom:24px;}
+    ul li{font-size:12px;color:#475569;border-left:2px solid #0f2744;padding-left:12px;margin-bottom:8px;line-height:1.6;}
+    .notes{background:#fef3c7;border-radius:8px;padding:16px;margin-top:16px;font-size:13px;color:#92400e;white-space:pre-wrap;}
+    @media print{body{margin:16px;}}
+  </style></head><body>
+    <span class="badge">${semLabel} &mdash; Tecnologia em Saneamento Ambiental · CENTEC</span>
+    <h1>${subject.name}</h1>
+    <p>${subject.description}</p>
+    <h2>Conteúdo Programático</h2>
+    <ol>${subject.topics.map(t=>`<li>${t}</li>`).join('')}</ol>
+    <h2>Bibliografia</h2>
+    <ul>${subject.bibliography.map(b=>`<li>${b}</li>`).join('')}</ul>
+    ${noteText ? `<div class="notes"><h2>Minhas Anotações</h2>${noteText}</div>` : ''}
+  </body></html>`);
+  w.document.close();
+  w.onload = () => w.print();
+}
+
+function resetProgress() {
+  if (!confirm('Tem certeza que deseja apagar todo o seu progresso? Esta ação não pode ser desfeita.')) return;
+  checkedTopics = {};
+  saveJSON(STORAGE_PROGRESS, checkedTopics);
+  openSubjects = new Set();
+  renderAll();
+}
+
+// ══════════════════════════════════════════════════════════
+// INFO CARDS & HERO UPDATE
+// ══════════════════════════════════════════════════════════
+function updateInfoCards() {
+  const overall = getOverallProgress();
+  document.getElementById('ic-topics').textContent   = overall.checked;
+  document.getElementById('ic-subjects').textContent = getCompletedSubjectsCount();
+  document.getElementById('ic-percent').textContent  = overall.percent + '%';
+  document.getElementById('ic-notes').textContent    = getNotesCount();
+
+  const footerText = document.getElementById('footer-text');
+  if (overall.checked === 0) {
+    footerText.textContent = 'Comece a marcar tópicos para acompanhar seu progresso!';
+  } else if (overall.percent === 100) {
+    footerText.textContent = '🎓 Parabéns! Você concluiu todo o guia de estudos!';
+  } else {
+    footerText.textContent = `${overall.checked} de ${overall.total} tópicos estudados`;
+  }
+  document.getElementById('footer-bar').style.width = overall.percent + '%';
+}
+
+function updateHeroProgress() {
+  const overall = getOverallProgress();
+  document.getElementById('hero-percent').textContent = overall.percent + '%';
+  const wrap = document.getElementById('hero-progress-wrap');
+  if (overall.percent > 0) {
+    wrap.style.display = 'block';
+    document.getElementById('hero-progress-bar').style.width = overall.percent + '%';
+    document.getElementById('hero-progress-text').textContent = `${overall.checked} de ${overall.total} tópicos estudados`;
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// CELEBRATION
+// ══════════════════════════════════════════════════════════
+function showCelebration(subId) {
+  const subject = curriculum.flatMap(s=>s.subjects).find(s=>s.id===subId);
+  if (!subject) return;
+  const el = document.getElementById('celebration');
+  document.getElementById('celebration-name').textContent = subject.name + ' concluída! 🎓';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function spawnConfetti() {
+  const colors = ['#E87722','#10b981','#3b82f6','#f59e0b','#ef4444','#8b5cf6'];
+  for (let i=0; i<40; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-particle';
+    const size = Math.random()*8+4;
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const x = Math.random()*100;
+    const drift = (Math.random()-0.5)*200;
+    el.style.cssText = `left:${x}vw;top:0;width:${size}px;height:${size}px;background:${color};border-radius:${Math.random()>0.5?'50%':'2px'};--drift:${drift}px;animation-delay:${Math.random()*0.5}s;`;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// SCROLL
+// ══════════════════════════════════════════════════════════
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total    = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scroll-bar').style.width = (total > 0 ? (scrolled/total)*100 : 0) + '%';
+  document.getElementById('back-to-top').classList.toggle('visible', scrolled > 300);
+}, { passive: true });
+
+// ══════════════════════════════════════════════════════════
+// RENDER ALL
+// ══════════════════════════════════════════════════════════
+function renderAll() {
+  renderTabs();
+  renderCards();
+  updateInfoCards();
+  updateHeroProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+applyTheme();
+renderAll();
+</script>
+</body>
+</html>
