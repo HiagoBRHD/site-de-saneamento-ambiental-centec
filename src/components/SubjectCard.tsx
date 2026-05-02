@@ -6,10 +6,8 @@ import {
   FileText,
   ChevronRight,
   Maximize2,
-  Brain,
   Loader2
 } from 'lucide-react';
-import { Flashcards } from './Flashcards';
 import { useStudy } from '../contexts/StudyContext';
 import { bundledContent } from '../data/curriculum/index';
 import { downloadPDF } from '../utils/download';
@@ -25,7 +23,6 @@ interface SubjectCardProps {
 export const SubjectCard = memo(({ subject }: SubjectCardProps) => {
   const { notes, updateNote } = useStudy();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isReviewMode, setIsReviewMode] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   
   const content = bundledContent[subject.id] || "Conteúdo não disponível.";
@@ -51,6 +48,7 @@ export const SubjectCard = memo(({ subject }: SubjectCardProps) => {
             onClick={handleDownload}
             disabled={isDownloading}
             className="p-2 text-slate-400 hover:text-primary transition-colors cursor-pointer disabled:opacity-50"
+            title="Baixar PDF"
           >
             {isDownloading ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
           </button>
@@ -68,9 +66,7 @@ export const SubjectCard = memo(({ subject }: SubjectCardProps) => {
           <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
             <FileText size={14} /> Ver Detalhes
           </span>
-          <div className="flex items-center gap-1 text-primary">
-             <ChevronRight size={18} />
-          </div>
+          <ChevronRight size={18} className="text-primary" />
         </div>
       </div>
 
@@ -101,26 +97,17 @@ export const SubjectCard = memo(({ subject }: SubjectCardProps) => {
 
             <div className="flex-1 overflow-y-auto p-8 md:p-12">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div className="space-y-8">
-                  <section className="prose dark:prose-invert max-w-none">
-                    <ReactMarkdown>{content}</ReactMarkdown>
-                  </section>
-                </div>
+                <section className="prose dark:prose-invert max-w-none order-2 lg:order-1">
+                  <ReactMarkdown>{content}</ReactMarkdown>
+                </section>
 
-                <div className="space-y-8">
-                  <button 
-                    onClick={() => setIsReviewMode(true)}
-                    className="w-full py-4 bg-slate-800 dark:bg-white/10 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-slate-700 transition-all cursor-pointer"
-                  >
-                    <Brain size={20} className="text-primary" /> Iniciar Revisão (Flashcards)
-                  </button>
-
+                <div className="space-y-8 order-1 lg:order-2">
                   <section className="glass-card p-6 rounded-2xl border-primary/20">
                     <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                       <FileText size={20} className="text-primary" /> Suas Anotações
                     </h3>
                     <textarea 
-                      className="w-full h-64 bg-transparent border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none font-jakarta"
+                      className="w-full h-48 lg:h-64 bg-transparent border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none font-jakarta"
                       placeholder="Escreva suas observações aqui..."
                       value={notes[subject.id] || ''}
                       onChange={(e) => updateNote(subject.id, e.target.value)}
@@ -138,18 +125,6 @@ export const SubjectCard = memo(({ subject }: SubjectCardProps) => {
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {isReviewMode && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950 animate-in fade-in duration-500">
-          <Flashcards 
-            cards={[
-              { question: `O que é o conceito principal de ${subject.name}?`, answer: `De acordo com a ementa: ${content.slice(0, 200)}...` },
-              { question: "Qual a importância desta matéria no Saneamento?", answer: "Esta matéria fornece as bases fundamentais para a compreensão técnica dos processos ambientais." },
-            ]}
-            onClose={() => setIsReviewMode(false)}
-          />
         </div>
       )}
     </>

@@ -4,11 +4,10 @@ import {
   BookOpen, 
   CheckCircle2, 
   Clock, 
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  GraduationCap,
-  X
+  ChevronLeft, 
+  ChevronRight, 
+  GraduationCap, 
+  X 
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { curriculumIndex } from '../data/curriculum/index';
@@ -42,7 +41,6 @@ export const Sidebar = React.memo(({
           <h2 className="text-xl font-bold whitespace-nowrap">Saneamento</h2>
         </div>
         
-        {/* Toggle Button for Desktop / Close for Mobile */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 hover:bg-slate-500/10 rounded-lg transition-colors cursor-pointer"
@@ -60,13 +58,13 @@ export const Sidebar = React.memo(({
       <nav className="flex-1 px-3 space-y-2 overflow-y-auto mt-4 scrollbar-hide">
         <NavItem 
           icon={<LayoutDashboard size={20} />} 
-          label="Dashboard" 
+          label="Início" 
           active={activeTab === 'dashboard'} 
           onClick={() => setActiveTab('dashboard')}
           isOpen={isOpen}
         />
 
-        <div className={cn("pt-4 pb-2 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider overflow-hidden", !isOpen && "lg:opacity-0")}>
+        <div className={cn("pt-6 pb-2 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider overflow-hidden", !isOpen && "lg:opacity-0")}>
           Semestres
         </div>
 
@@ -81,7 +79,7 @@ export const Sidebar = React.memo(({
           />
         ))}
 
-        <div className={cn("pt-4 pb-2 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider overflow-hidden", !isOpen && "lg:opacity-0")}>
+        <div className={cn("pt-6 pb-2 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider overflow-hidden", !isOpen && "lg:opacity-0")}>
           Ferramentas
         </div>
 
@@ -94,22 +92,18 @@ export const Sidebar = React.memo(({
         />
         <NavItem 
           icon={<CheckCircle2 size={20} />} 
-          label="Progresso" 
+          label="Meu Progresso" 
           active={activeTab === 'progress'} 
           onClick={() => setActiveTab('progress')}
           isOpen={isOpen}
         />
       </nav>
 
-      {/* Footer */}
-      <div className="p-6 border-t border-white/10">
-        <NavItem 
-          icon={<Settings size={20} />} 
-          label="Configurações" 
-          active={activeTab === 'settings'} 
-          onClick={() => setActiveTab('settings')}
-          isOpen={isOpen}
-        />
+      <div className="p-4 mt-auto">
+        <div className={cn("p-4 rounded-2xl bg-primary/5 border border-primary/10 transition-opacity duration-300", !isOpen && "opacity-0")}>
+           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Status</p>
+           <p className="text-xs font-medium text-slate-500">Versão 2.0 Otimizada</p>
+        </div>
       </div>
     </aside>
   );
@@ -133,7 +127,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, isOpen 
   >
     <div className="shrink-0">{icon}</div>
     <span className={cn(
-      "whitespace-nowrap transition-all duration-300",
+      "whitespace-nowrap transition-all duration-300 font-medium",
       !isOpen ? "lg:opacity-0 lg:w-0" : "opacity-100"
     )}>
       {label}
